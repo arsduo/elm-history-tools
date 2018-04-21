@@ -118,7 +118,7 @@ Each entry in the history hash represents an Elm message object -- so
 represents the Elm message
 
 ```elm
--- given type alias SomeType = AnotherType | SomethingElse
+-- if type alias SomeType = AnotherType | SomethingElse
 --
 -- MessageType String SomeType
 MessageType "Arg1" AnotherType
@@ -153,7 +153,7 @@ You don't need to know anything about linked lists to use Elm (or Javascript or 
 
 **In the future**
 
-It looks like the terms will change somewhat in a future version of Elm:  `"ctor"` and `"_01"`, `"_02"`, etc. will be [replaced with `$`, `a`, `b`, etc.](https://github.com/elm-lang/virtual-dom/commit/61cf2090ecb745542532dd7ea87de37c6ed6c3b4#diff-25d902c24283ab8cfbac54dfa101ad31). ElmHistoryTools will support both formats in the future; should the structure change, obviously that will be addressed too.
+It looks like the terms will change somewhat in a future version of Elm:  `"ctor"` and `"_01"`, `"_02"`, etc. will be [replaced with `$`, `a`, `b`, etc](https://github.com/elm-lang/virtual-dom/commit/61cf2090ecb745542532dd7ea87de37c6ed6c3b4#diff-25d902c24283ab8cfbac54dfa101ad31). ElmHistoryTools will support both formats in the future; should the structure change, obviously that will be addressed too.
 
 **Why hashes?**
 
@@ -171,7 +171,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/elm_history_tools. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/arsduo/elm_history_tools. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -179,4 +179,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the ElmHistoryTools project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/elm_history_tools/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the ElmHistoryTools project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [Code of Conduct](https://github.com/arsduo/elm_history_tools/blob/master/CODE_OF_CONDUCT.md).
