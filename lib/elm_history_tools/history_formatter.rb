@@ -20,22 +20,18 @@ module ElmHistoryTools::HistoryFormatter
   # alternative approach would be to use nil. While that would clearly distinguish between those
   # cases, it would make working with the results more complicated.
   def self.simplify_history_entry(entry)
-    if !entry.is_a?(Hash)
-      entry
-    elsif entry["ctor"] == "::"
-      # Elm lists are represented as nested entries with the contructor ::. (See the readme for
-      # more detail.)
-      # We collapse those into a proper Ruby array via flatten.
-      # The last entry of the list will have no nested entry, so we use compact to remove the nil.
-      [simplify_history_entry(entry["_0"]), simplify_history_entry(entry["_1"])].compact.flatten
-    elsif entry["ctor"]
-      # we have an Elm type
-      {
-        entry["ctor"] => entry.reject {|k, _v| k == "ctor"}.values.map {|val| simplify_history_entry(val) }
-      }
-    else
-      entry.each_with_object({}) do |(key, value), hash|
-        hash[key] = simplify_history_entry(value)
+    ElmHistoryTools::Utils.transform_object(entry) do |object_hash|
+      if object_hash["ctor"] == "::"
+        # Elm lists are represented as nested entries with the contructor ::. (See the readme for
+        # more detail.)
+        # We collapse those into a proper Ruby array via flatten.
+        # The last entry of the list will have no nested entry, so we use compact to remove the nil.
+        [simplify_history_entry(object_hash["_0"]), simplify_history_entry(object_hash["_1"])].compact.flatten
+      elsif object_hash["ctor"]
+        # we have an Elm object type (we know this because non-objects aren't passed to the block)
+        {
+          object_hash["ctor"] => object_hash.reject {|k, _v| k == "ctor"}.values.map {|val| simplify_history_entry(val) }
+        }
       end
     end
   end
