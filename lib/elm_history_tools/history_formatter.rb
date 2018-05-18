@@ -35,4 +35,8 @@ module ElmHistoryTools::HistoryFormatter
       end
     end
   end
+
+  class << self
+    private :simplify_history_entry
+  end
 end

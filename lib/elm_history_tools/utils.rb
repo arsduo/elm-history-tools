@@ -10,8 +10,8 @@ module ElmHistoryTools::Utils
     if !entry.is_a?(Hash)
       entry
     elsif entry["ctor"]
-      # If you want to walk down sub-entries, call transform_object within your block
-      block.call(entry)
+      # If you want to walk down sub-entries, call transform_object within your block.
+      yield entry
     else
       # Each Elm record should be
       entry.each_with_object({}) do |(key, value), hash|
