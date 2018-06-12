@@ -141,16 +141,14 @@ The Elm 0.18.0 history export is structured as followed:
 Each entry in the history hash represents an Elm message object -- so
 
 ```js
-{"ctor": "MessageType", "_0": "Arg1", "_02": {"ctor": "AnotherType"}},
+{"ctor": "MessageType", "_0": "Arg1", "_02": {"ctor": "AnotherTypeValue"}}
 ```
 
 represents the Elm message
 
 ```elm
--- if type alias SomeType = AnotherType | SomethingElse
---
 -- MessageType String SomeType
-MessageType "Arg1" AnotherType
+MessageType "Arg1" AnotherTypeValue
 ```
 
 A few notes:
