@@ -9,7 +9,7 @@ module ElmHistoryTools::Utils
   def self.transform_object(entry, &block)
     if !entry.is_a?(Hash)
       entry
-    elsif entry["ctor"]
+    elsif entry["$"]
       # If you want to walk down sub-entries, call transform_object within your block.
       yield entry
     else

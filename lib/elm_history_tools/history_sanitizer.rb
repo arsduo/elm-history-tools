@@ -20,21 +20,23 @@ module ElmHistoryTools::HistorySanitizer
   # further.
   def self.sanitize_history(history_data, watch_words, &sanitizing_block)
     matchers = watch_words.map {|word| word.is_a?(Regexp) ? word : Regexp.new(word, true)}
-    history_data.dup.merge(
-      "history" => history_data["history"].map {|entry| sanitize(entry, matchers, &sanitizing_block)}
+    data = history_data.dup
+    data["a"].merge!(
+      "history" => data["a"]["history"].map {|entry| sanitize(entry, matchers, &sanitizing_block)}
     )
+    data
   end
 
   # For each entry, we sanitize it if there's a matching handler. If there is no sanitizer, see if
   # any data in the entry merit flagging against a watch word.
   def self.sanitize(entry, matchers, &sanitizing_block)
     ElmHistoryTools::Utils.transform_object(entry) do |elm_object|
-      constructor = elm_object["ctor"]
+      constructor = elm_object["$"]
       raise ElmObjectExpected unless constructor
 
       # replace any records that need it
       cleaned_object = elm_object.each_with_object({}) do |(key, value), hash|
-        if value.is_a?(Hash) && value["ctor"]
+        if value.is_a?(Hash) && value["$"]
           # we have an elm object -- sanitize that
           hash[key] = sanitize(value, matchers, &sanitizing_block)
         elsif value.is_a?(Hash)
