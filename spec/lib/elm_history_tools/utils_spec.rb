@@ -4,17 +4,17 @@ RSpec.describe ElmHistoryTools::Utils do
   describe ".transform_object" do
     let(:sample_object) {
       {
-        "ctor" => "TestMessage",
-        "_0" => "a primitive value",
-        "_1" => {
+        "$" => "TestMessage",
+        "a" => "a primitive value",
+        "b" => {
           "type" => "record",
           "containing" => {
-            "ctor" => "AnObject",
-            "_0" => "SomeValue"
+            "$" => "AnObject",
+            "a" => "SomeValue"
           }
         },
-        "_2" => {
-          "ctor" => "AnotherObject"
+        "c" => {
+          "$" => "AnotherObject"
         }
       }
     }
@@ -22,8 +22,8 @@ RSpec.describe ElmHistoryTools::Utils do
     it "transforms the entry according to the block provided" do
       transformation = lambda do |object_hash|
         object_hash = object_hash.each_with_object({}) do |(k, v), hash|
-          if k == "ctor"
-            hash["constructor"] = v
+          if k == "$"
+            hash["constru$"] = v
           else
             hash[k.upcase + "processed"] = ElmHistoryTools::Utils.transform_object(v, &transformation)
           end
@@ -33,19 +33,19 @@ RSpec.describe ElmHistoryTools::Utils do
       result = ElmHistoryTools::Utils.transform_object(sample_object, &transformation)
 
       expect(result).to eq({
-        "constructor" => "TestMessage",
-        "_0processed" => "a primitive value",
-        "_1processed" => {
+        "constru$" => "TestMessage",
+        "Aprocessed" => "a primitive value",
+        "Bprocessed" => {
           # records are handled differently than objects
           "type" => "record",
           "containing" => {
             # this shows that embedded objects are also processed
-            "constructor" => "AnObject",
-            "_0processed" => "SomeValue"
+            "constru$" => "AnObject",
+            "Aprocessed" => "SomeValue"
           }
         },
-        "_2processed" => {
-          "constructor" => "AnotherObject"
+        "Cprocessed" => {
+          "constru$" => "AnotherObject"
         }
       })
     end

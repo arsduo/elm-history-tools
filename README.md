@@ -100,87 +100,8 @@ You can then easily loop over this data in Ruby to present a readable internal d
 
 ## Elm History Export Format
 
-The Elm 0.18.0 history export is structured as followed:
-
-```js
-{
-  "metadata": {
-    "versions": {"elm": "0.18.0"},
-    "types": {
-      // the Message type used by your program
-      "message": "Message.Message",
-      // all the type aliases defined in your program
-      "aliases": {
-        "Json.Decode.Value": {"args":[],"type":"Json.Encode.Value"},
-        // etc.
-      },
-      // all the union types used in your program
-      "unions": {
-        "Maybe.Maybe": {
-          // what arguments the union type takes
-          "args": ["a"],
-          // what tags/constructors make up that union type and what arguments they take
-          "tags":{
-            "Just": ["a"],
-            "Nothing": []
-          }
-        }
-      }
-    }
-  }
-  // what's happened in user session being exported
-  "history": [
-    // each entry is stored with the contructor and any ordered arguments passed to it
-    {"ctor": "MessageType", "_0": "Arg1", "_02": {"ctor": "AnotherType"}},
-    {"ctor": "AnotherMessageType", "_0": "AnotherArg"},
-    // etc.
-  ]
-}
-```
-
-Each entry in the history hash represents an Elm message object -- so
-
-```js
-{"ctor": "MessageType", "_0": "Arg1", "_02": {"ctor": "AnotherTypeValue"}}
-```
-
-represents the Elm message
-
-```elm
--- MessageType String SomeType
-MessageType "Arg1" AnotherTypeValue
-```
-
-A few notes:
-
-**Lists**
-
-List entries are recursively nested objects whose constructor is `::` (cons).
-
-As an example, an Elm list of three books (`[{title = "Too Like the Lightning"}, {title = "The Fear of Barbarians"}, {title = "Evicted"}]`) would be represented as:
-
-```js
-{
-  "ctor": "::",
-  "_0": {"title": "Too Like the Lightning"},
-  "_1": {
-    "ctor": "::",
-    "_0": {"title": "The Fear of Barbarians"},
-    "_1": {
-      "ctor": "::",
-      "_0": {"title": "Evicted"}
-    }
-  }
-}
-```
-
-This is because in Elm, `List` is implemented as a linked list (each element is an object that both stores its value and points to the next element in the list, rather than sitting in an array of plain values).
-
-You don't need to know anything about linked lists to use Elm (or Javascript or Ruby or, likely, whatever you're using for work or fun -- I've literally never used them in my career), but if you're curious, you can read more about them [on Wikipedia](https://en.wikipedia.org/wiki/Linked_list). You can also check out [this interesting discussion](https://github.com/elm-lang/elm-plans/issues/13) of Arrays vs. Lists in Elm.
-
-**In the future**
-
-It looks like the terms will change somewhat in a future version of Elm:  `"ctor"` and `"_01"`, `"_02"`, etc. will be [replaced with `$`, `a`, `b`, etc](https://github.com/elm-lang/virtual-dom/commit/61cf2090ecb745542532dd7ea87de37c6ed6c3b4#diff-25d902c24283ab8cfbac54dfa101ad31). ElmHistoryTools will support both formats in the future; should the structure change, obviously that will be addressed too.
+For more information on the Elm history export format, see [this blog
+post](https://medium.com/@arsduo/understanding-an-elm-0-19-history-export-1bca38613840).
 
 **Why hashes?**
 
